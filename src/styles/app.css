@@ -1,0 +1,124 @@
+/* Vidora AI — landing redesign
+ * Direction: warm paper + ember accent · editorial-modern SaaS
+ * Type: Clash Display (display) + Satoshi (body) via Fontshare
+ * Motion: transform/opacity only · reduced-motion aware
+ */
+@import "tailwindcss";
+
+@theme {
+  --color-paper: oklch(0.975 0.009 88);
+  --color-paper-2: oklch(0.952 0.013 85);
+  --color-ink: oklch(0.22 0.014 62);
+  --color-ink-soft: oklch(0.34 0.016 62);
+  --color-muted: oklch(0.5 0.02 66);
+  --color-espresso: oklch(0.17 0.016 55);
+  --color-espresso-2: oklch(0.235 0.02 56);
+  --color-ember: oklch(0.62 0.19 41);
+  --color-ember-deep: oklch(0.5 0.16 39);
+  --color-cream: oklch(0.94 0.018 88);
+  --color-hairline: oklch(0.22 0.014 62 / 0.14);
+  --color-hairline-light: oklch(0.94 0.018 88 / 0.16);
+
+  --font-display: "Clash Display", "Satoshi", ui-sans-serif, sans-serif;
+  --font-body: "Satoshi", ui-sans-serif, system-ui, sans-serif;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out-soft: cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+html,
+body {
+  overflow-x: clip;
+}
+
+body {
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--color-ember);
+  color: var(--color-cream);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-ember);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* ---- film grain ------------------------------------------------------- */
+.grain-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 160px 160px;
+}
+
+/* ---- platform marquee -------------------------------------------------- */
+@keyframes marquee-drift {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.marquee-track {
+  animation: marquee-drift 46s linear infinite;
+  will-change: transform;
+}
+
+/* ---- ember glow drift -------------------------------------------------- */
+@keyframes glow-drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(-6%, 4%, 0) scale(1.08);
+  }
+}
+
+.glow-drift {
+  animation: glow-drift 18s var(--ease-in-out-soft) infinite;
+  will-change: transform;
+}
+
+/* ---- publishing pulse --------------------------------------------------- */
+@keyframes pulse-soft {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}
+
+.pulse-soft {
+  animation: pulse-soft 2.2s var(--ease-in-out-soft) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .marquee-track,
+  .glow-drift,
+  .pulse-soft {
+    animation: none;
+  }
+}
